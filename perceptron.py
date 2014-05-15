@@ -7,20 +7,41 @@ def threshold(val):
 def dotproduct(a, b):
   return sum(i * j for i, j in zip(a, b))
 
-def binary_learning(l0, l1, iterations, learning_rate = 0.1, weights = None, step_function = threshold):
+def binary_learning(l0, l1, maxiterations = -1, miniterations = -1,
+      learning_rate = 0.1,
+      weights = None,
+      step_function = threshold):
+  assert (len(l0) > 0 and len(l1) > 0)
   # x_0 is always on
-  # x_1, x_2 = coordinates
-  labeled = [(0, i[0], i[1]) for i in l0] + [(1, i[0], i[1]) for i in l1]
+  # x_1, x_2, ... = coordinates
+  labeled = [[0] + list(i) for i in l0] + [[1] + list(i) for i in l1]
   # initialize random weights
   # weights[0] is the bias of the neuron
+  dim = len(l0[0])
+  w = []
   if not weights:
-    weights = [random.random() for i in range(3)]
+    w = [random.random() for i in range(dim + 1)]
+  else:
+    w = list(weights)
 
-  for c in range(iterations):
-    for l, x1, x2 in labeled:
+  its = 0
+  while True:
+    if maxiterations != -1 and its >= maxiterations:
+      break
+    its += 1
+    nerrors = 0
+    for item in labeled:
+      label = item[0]
       # input x0 is always on because the weight of this input is the bias
-      x = [1.0, x1, x2]
-      y = step_function(dotproduct(weights, x))
-      for i in range(len(weights)):
-        weights[i] += (float(l) - y) * learning_rate * x[i]
-  return weights
+      x = [1.0] + item[1:]
+      y = step_function(dotproduct(w, x))
+      d = float(label) - y
+      for i in range(len(w)):
+        w[i] += d * learning_rate * x[i]
+      nerrors += abs(d)
+    if nerrors == 0:
+      if miniterations == -1:
+        break
+      elif its >= miniterations:
+        break
+  return w, its
