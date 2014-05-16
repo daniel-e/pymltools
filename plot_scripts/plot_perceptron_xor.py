@@ -11,10 +11,14 @@ plt.grid()
 
 # initialize prng and weights to get deterministic results
 random.seed(2)
-w = [2.0, -0.1, -0.8, 0.3]
+w = [2.0, -0.1, -0.8, 0.2]
 
 # create random examples of two classes
-l0, l1 = synthetic_data.binary_class_non_linsep(300)
+l0, l1 = synthetic_data.xor_binary_class(50, 0.5)
+
+# TODO
+l0 = list(l0)
+l1 = list(l1)
 
 x, y = zip(*l0)
 plt.plot(x, y, ".", marker = "+")
@@ -23,10 +27,10 @@ plt.plot(x, y, ".", marker = "x")
 
 # map the data into a space with one addition dimension so that
 # it becomes linearly separable
-l0 = [(x, y, x*x + y*y) for x, y in l0]
-l1 = [(x, y, x*x + y*y) for x, y in l1]
+l0 = [(x, y, x*y) for x, y in l0]
+l1 = [(x, y, x*y) for x, y in l1]
 
-w, its = perceptron.binary_learning(l0, l1, maxiterations = 1000, weights = w)
+w, its = perceptron.binary_learning(l0, l1, weights = w)
 print ("iterations =", its)
 
 def frange(start, end, step):
@@ -36,19 +40,23 @@ def frange(start, end, step):
     r += step
 
 # plot the decision boundary
-xc = list(frange(-1.2635, 1.1220, 0.0001))
-y1 = []
-y2 = []
-for x in xc:
-  c = (w[0] + w[1] * x + w[3] * x * x) / (-w[3])
-  p = w[2] / w[3] / 2.0
-  y1.append(math.sqrt(c + math.pow(p, 2)) - p)
-  y2.append(-math.sqrt(c + math.pow(p, 2)) - p)
-plt.plot(xc, y1, "r", label = "decision boundary")
-plt.plot(xc, y2, "r")
+x = list(frange(-2, 0.52, 0.001))
+y = []
+for i in x:
+  a = (-w[0] - w[1] * i) / (w[2] + w[3] * i)
+  y.append(a)
+plt.plot(x, y, "r", label = "decision boundary")
+
+x = list(frange(0.53, 1.5, 0.001))
+y = []
+for i in x:
+  a = (-w[0] - w[1] * i) / (w[2] + w[3] * i)
+  y.append(a)
+plt.plot(x, y, "r")
+
 
 plt.legend(loc = "lower right")
-plt.xlim([-2, 2])
-plt.ylim([-2, 2])
-plt.savefig("perceptron_nonlin.png")
+plt.xlim([-0.5, 1.5])
+plt.ylim([-0.5, 1.5])
+plt.savefig("perceptron_xor.png")
 #plt.show()
