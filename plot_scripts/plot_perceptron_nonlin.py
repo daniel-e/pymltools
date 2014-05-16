@@ -26,8 +26,8 @@ plt.plot(x, y, ".", marker = "x")
 l0 = [(x, y, x*x + y*y) for x, y in l0]
 l1 = [(x, y, x*x + y*y) for x, y in l1]
 
-w, its = perceptron.binary_learning(l0, l1, maxiterations = 1000, weights = w)
-print ("iterations =", its)
+w, its, err = perceptron.binary_learning(l0, l1, maxiterations = 1000, weights = w)
+print ("iterations =", its, "errors =", err)
 
 def frange(start, end, step):
   r = start

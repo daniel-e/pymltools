@@ -24,14 +24,14 @@ plt.plot(range(6), label = "y = x")
 
 for n in [1, 10, 100, 500, 1000]:
   # plot the decision boundary
-  weights, its = perceptron.binary_learning(l0, l1,
+  weights, its, err = perceptron.binary_learning(l0, l1,
     maxiterations = n, miniterations = n, weights = w, learning_rate = 0.0001)
   y = [(-weights[0] - weights[1] * x) / weights[2] for x in range(6)]
   plt.plot(y, label = str(n))
 
-weights, its = perceptron.binary_learning(l0, l1, weights = w, learning_rate = 0.0001)
+weights, its, err = perceptron.binary_learning(l0, l1, weights = w, learning_rate = 0.0001)
 print (its, "0.001")
-weights, its = perceptron.binary_learning(l0, l1, weights = w, learning_rate = 0.1)
+weights, its, err = perceptron.binary_learning(l0, l1, weights = w, learning_rate = 0.1)
 print (its, "0.1")
 
 plt.title("learning rate = 0.0001")

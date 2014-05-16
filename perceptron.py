@@ -25,23 +25,31 @@ def binary_learning(l0, l1, maxiterations = -1, miniterations = -1,
     w = list(weights)
 
   its = 0
+  nerrors = 0
   while True:
     if maxiterations != -1 and its >= maxiterations:
       break
     its += 1
-    nerrors = 0
     for item in labeled:
       label = item[0]
       # input x0 is always on because the weight of this input is the bias
       x = [1.0] + item[1:]
       y = step_function(dotproduct(w, x))
       d = float(label) - y
-      for i in range(len(w)):
-        w[i] += d * learning_rate * x[i]
+      if d != 0:
+        for i in range(len(w)):
+          w[i] += d * learning_rate * x[i]
+    # TODO
+    nerrors = 0
+    for item in labeled:
+      label = item[0]
+      x = [1.0] + item[1:]
+      y = step_function(dotproduct(w, x))
+      d = float(label) - y
       nerrors += abs(d)
     if nerrors == 0:
       if miniterations == -1:
         break
       elif its >= miniterations:
         break
-  return w, its
+  return w, its, nerrors

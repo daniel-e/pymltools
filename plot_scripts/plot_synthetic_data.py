@@ -41,3 +41,12 @@ if __name__ == "__main__":
   plt.ylim([-0.5, 1.5])
   plt.savefig("syn_3.png")
   #plt.show()
+
+  plt.figure()
+  l0, l1 = synthetic_data.alternating_binary_class(3, 3, 0.2, 20)
+  plt = show_plot_classes([l0, l1])
+  plt.title("non linearly separable data set")
+  plt.xlim([-0.5, 2.5])
+  plt.ylim([-0.5, 2.5])
+  plt.savefig("syn_4.png")
+  #plt.show()

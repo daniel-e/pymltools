@@ -37,3 +37,16 @@ def xor_binary_class(n, width = 0.2):
   l0 = chain(cloud(0, 0, width, n), cloud(1, 1, width, n))
   l1 = chain(cloud(0, 1, width, n), cloud(1, 0, width, n))
   return [l0, l1]
+
+def alternating_binary_class(columns, rows, width, n):
+  l0 = []
+  l1 = []
+  for i in range(rows):
+    for j in range(columns):
+      k = i * columns + j
+      l = list(cloud(j, i, width, n))
+      if k % 2 == 0:
+        l0 = l0 + l
+      else:
+        l1 = l1 + l
+  return [l0, l1]
