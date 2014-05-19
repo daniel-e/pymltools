@@ -20,6 +20,7 @@ l0, l1 = synthetic_data.alternating_binary_class(3, 3, 0.2, 50)
 l0 = list(l0)
 l1 = list(l1)
 
+
 def map_points(p):
   return [(x, y, x+y, x*y, x*x+y*y, x*x*y*y, x*x*x+y*y*y, x*x*x*y*y*y, x*x*x*x*x*y*y*y*y) for x, y in p]
 
