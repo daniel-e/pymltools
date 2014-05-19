@@ -1,6 +1,5 @@
 import random
 
-
 def threshold(val):
   if (val > 0.0): return 1.0
   return 0.0
